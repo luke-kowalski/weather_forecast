@@ -1,11 +1,15 @@
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-api = "3af3d3b40ec932ed51b8c87bfecc03d6"
+load_dotenv('.env')
+
+api_token = os.getenv('API_TOKEN')
 lat = 53.216198
 lon = 19.654487
 
-url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&units=metric&exclude=hourly,minutely&appid={api}"
+url = f"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&units=metric&exclude=hourly,minutely&appid={api_token}"
 
 
 response = requests.get(url)
