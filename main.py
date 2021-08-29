@@ -1,11 +1,12 @@
 import requests
 from datetime import datetime
-from dotenv import load_dotenv
-import os
+from configparser import ConfigParser
 
-load_dotenv('.env')
+parser = ConfigParser()
+parser.read('config.ini')
 
-api_token = os.getenv('API_TOKEN')
+api_token = parser.get('WEATHER_API', 'api_token')
+
 lat = 53.216198
 lon = 19.654487
 
@@ -17,12 +18,20 @@ jsonResponse = response.json()
 
 
 for days in jsonResponse["daily"]:
-    print(datetime.fromtimestamp(int(days["dt"])).strftime("%Y,%m,%d"))
-    print(days["dt"])
-    print(datetime.fromtimestamp(int(days["sunrise"])).strftime("%H:%M:%S"))
-    print(datetime.fromtimestamp(int(days["sunset"])).strftime("%H:%M:%S"))
-    print(days["temp"]["day"])
-    print(days["temp"]["night"])
-    print(days["pressure"])
-    print(days["humidity"])
-    print((days["weather"][0]["main"] + " - " + days["weather"][0]["description"]))
+    wf_day = datetime.fromtimestamp(int(days["dt"])).strftime("%Y-%m-%d")
+    wf_sunrise = datetime.fromtimestamp(int(days["sunrise"])).strftime("%H:%M:%S")
+    wf_sunset = datetime.fromtimestamp(int(days["sunset"])).strftime("%H:%M:%S")
+    wf_temp_day = days["temp"]["day"]
+    wf_temp_night = days["temp"]["night"]
+    wf_pressure = days["pressure"]
+    wf_humidity = days["humidity"]
+    wf_description = (days["weather"][0]["main"] + " - " + days["weather"][0]["description"])
+
+    print(wf_day)
+    print(wf_sunrise)
+    print(wf_sunset)
+    print(wf_temp_day)
+    print(wf_temp_night)
+    print(wf_pressure)
+    print(wf_humidity)
+    print(wf_description)
